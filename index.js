@@ -3,17 +3,12 @@ require("dotenv").config();
 const connectDB = require("./src/config/db");
 const app = require("./src/app");
 
-let isConnected = false;
+connectDB();
 
-async function connect() {
-  if (!isConnected) {
-    await connectDB();
-    isConnected = true;
-    console.log("MongoDB Atlas Connected");
-  }
-}
+const PORT = process.env.PORT || 5000;
 
-module.exports = async (req, res) => {
-  await connect();
-  return app(req, res);
-};
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
